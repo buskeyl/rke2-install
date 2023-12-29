@@ -1,4 +1,4 @@
-# cdf2-rke2-install
+# rke2-install
 
 #### First lets make sure rke2 isnt there 
 ```bash
