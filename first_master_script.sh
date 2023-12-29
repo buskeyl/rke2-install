@@ -5,6 +5,7 @@ systemctl enable rke2-server
 echo "setting up the rke2 config.yaml"
 mkdir -p /etc/rancher/rke2
 echo "token: ${1}" > /etc/rancher/rke2/config.yaml
+echo "selinux: true" >> /etc/rancher/rke2/config.yaml
 echo "setting up kubectl"
 echo 'PATH=${PATH}:/var/lib/rancher/rke2/bin' >> ~/.bashrc
 mkdir ~/.kube
