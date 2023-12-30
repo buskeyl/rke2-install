@@ -12,7 +12,9 @@ git clone https://github.com/brooksphilip/cdf2-rke2-install.git
 
 #### lets make it executable 
 ```bash 
-chmod +x first_master_script.sh other_master_script.sh```
+chmod +x first_master_script.sh
+chmod +x other_master_script.sh
+```
 
 #### Next lets get the first master set up. cd into the cloned git dir
 ```bash
