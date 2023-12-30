@@ -31,7 +31,7 @@ rke2_token=$(tr -dc A-Za-z0-9 </dev/urandom | head -c 32; echo)
 echo $rke2_token
 ```
 
-#### Next lets set up the other 
+#### Next lets set up the other nodes. Go to the other nodes. 
 ```bash 
 other_master_script.sh <IP_or_fqdn_of_first_master> <token_from_above>
 ```
