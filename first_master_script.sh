@@ -13,7 +13,7 @@ useradd -r -c "etcd user" -s /sbin/nologin -M etcd -U
 cp -f /usr/share/rke2/rke2-cis-sysctl.conf /etc/sysctl.d/60-rke2-cis.conf
 systemctl restart systemd-sysctl
 
-# STIG config cont
+# STIG config cont and specifying token for other nodes to join cluster. 
 echo "setting up the rke2 config.yaml"
 mkdir -p /etc/rancher/rke2/ /var/lib/rancher/rke2/server/manifests/
 echo "token: ${1}" > /etc/rancher/rke2/config.yaml
