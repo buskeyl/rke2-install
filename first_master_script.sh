@@ -18,6 +18,7 @@ systemctl disable firewalld
 systemctl stop firewalld
 echo "adding a network config"
 echo -e "[keyfile]\nunmanaged-devices=interface-name:cali*;interface-name:flannel*" > /etc/NetworkManager/conf.d/rke2-canal.conf
+systemctl reload NetworkManager
 echo "starting rke2 service"
 systemctl start rke2-server
 echo "setting up helm"
