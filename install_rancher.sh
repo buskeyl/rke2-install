@@ -36,7 +36,7 @@ function byocerts () {
     read -p "Cert Keyfile: " tlskey
     kubectl -n cattle-system create secret tls tls-rancher-ingress --cert=${tlscrt} --key=${tlskey}
     
-    read -p "Is this a cert signed by a privateCA? (y/n)" private
+    read -p "Is this a cert signed by a privateCA? (y/n): " private
 
     if [ $private = 'n' ]; then
         echo "installing Rancher with a globally trusted cert"
@@ -48,7 +48,7 @@ function byocerts () {
         read -p "ca chain file path: " cachainpath
         kubectl -n cattle-system create secret generic tls-ca --from-file=cacerts.pem=${cachainpath}
         echo "installing Rancher with a private CA cert"
-        read -p "input rancher domain" rancherhostname
+        read -p "input this Rancher servers FQDN: " rancherhostname
         helm install rancher rancher-stable/rancher --namespace cattle-system --set hostname=${rancherhostname} --set ingress.tls.source=secret --set bootstrapPassword=admin --set privateCA=true
 
         echo "watching the Rancher rollout"
@@ -57,7 +57,7 @@ function byocerts () {
 
 }
 
-read -p "Install Certmanager? If you have your own certs answer, no (y/n)" certmanager
+read -p "Install Certmanager? If you have your own certs answer, no (y/n): " certmanager
 
 if [ certmanager = 'y']; then 
     selfsigned
