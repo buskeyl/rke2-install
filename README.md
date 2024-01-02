@@ -40,3 +40,18 @@ other_master_script.sh <IP_or_fqdn_of_first_master> <token_from_above>
 ```bash
 kubectl get nodes
 ```
+
+#Rancher install 
+
+lets first make the script executable. 
+```bash 
+chmox +x install_rancher.sh
+```
+
+take note of all the cert paths. you will need a concatonated ca chain pem file if you are using a private CA. All these files need to be present on the machine you are running the script. 
+
+Install Rancher 
+
+```bash
+./install_rancher.sh
+```
