@@ -49,7 +49,7 @@ function byocerts () {
         kubectl -n cattle-system create secret generic tls-ca --from-file=cacerts.pem=${cachainpath}
         echo "installing Rancher with a private CA cert"
         read -p "input rancher domain" rancherhostname
-        helm install rancher rancher-stable/rancher --namespace cattle-system --set hostname=${rancherhostname} --set ingress.tls.source=secret bootstrapPassword=admin --set privateCA=true
+        helm install rancher rancher-stable/rancher --namespace cattle-system --set hostname=${rancherhostname} --set ingress.tls.source=secret --set bootstrapPassword=admin --set privateCA=true
 
         echo "watching the Rancher rollout"
         kubectl -n cattle-system rollout status deploy/rancher
