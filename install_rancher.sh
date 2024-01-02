@@ -1,5 +1,5 @@
 #!/bin/sh
-echo "reccomend opening 2 shells before starting this script"
+echo "reccommend opening 2 shells before starting this script"
 
 sleep 10
 
