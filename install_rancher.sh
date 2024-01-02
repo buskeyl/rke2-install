@@ -32,8 +32,8 @@ function selfsigned () {
 # https://ranchermanager.docs.rancher.com/getting-started/installation-and-upgrade/resources/add-tls-secrets
 
 function byocerts () {
-    read -p "Certfile Path" tlscrt
-    read -p "Cert Keyfile" tlskey
+    read -p "Certfile Path: " tlscrt
+    read -p "Cert Keyfile: " tlskey
     kubectl -n cattle-system create secret tls tls-rancher-ingress --cert=${tlscrt} --key=${tlskey}
     
     read -p "Is this a cert signed by a privateCA? (y/n)" private
@@ -45,7 +45,7 @@ function byocerts () {
         Echo "watching the Rancher rollout"
         kubectl -n cattle-system rollout status deploy/rancher
     else
-        read -p "ca chain file path" cachainpath
+        read -p "ca chain file path: " cachainpath
         kubectl -n cattle-system create secret generic tls-ca --from-file=cacerts.pem=${cachainpath}
         echo "installing Rancher with a globally trusted cert"
         helm install rancher rancher-stable/rancher --namespace cattle-system --set hostname=rancher.my.org --set ingress.tls.source=secret bootstrapPassword=admin --set privateCA=true
