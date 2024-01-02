@@ -36,7 +36,7 @@ function byocerts () {
     read -p "Cert Keyfile" tlskey
     kubectl -n cattle-system create secret tls tls-rancher-ingress --cert=${tlscrt} --key=${tlskey}
     
-    read -p "Is this a privateCA cert? (y/n)" private
+    read -p "Is this a cert signed by a privateCA? (y/n)" private
 
     if [ $private = 'n' ]; then
         echo "installing Rancher with a globally trusted cert"
