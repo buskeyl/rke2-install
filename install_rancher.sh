@@ -6,16 +6,54 @@ kubectl create namespace cattle-system
 # Rancher Install Docs
 # https://ranchermanager.docs.rancher.com/pages-for-subheaders/install-upgrade-on-a-kubernetes-cluster
 
-# CertManager
-helm repo add jetstack https://charts.jetstack.io
-helm repo update
-helm install cert-manager jetstack/cert-manager --namespace cert-manager --create-namespace --version v1.13.3 --set installCRDs=true
+function selfsigned () {
+    # CertManager
+    helm repo add jetstack https://charts.jetstack.io
+    helm repo update
+    helm install cert-manager jetstack/cert-manager --namespace cert-manager --create-namespace --version v1.13.3 --set installCRDs=true
 
-# BYO Certs
+    echo "Waiting for Certmanager to deploy"
+    sleep 60
+
+    echo "installing Rancher If certmanager is already installed"
+    helm install rancher rancher-stable/rancher --namespace cattle-system --set hostname=rancher.my.org --set bootstrapPassword=admin 
+
+    Echo "watching the Rancher rollout"
+    kubectl -n cattle-system rollout status deploy/rancher
+
+}
+
+# BYO Certs .. Comment out the below 
 # https://ranchermanager.docs.rancher.com/getting-started/installation-and-upgrade/resources/add-tls-secrets
 
-echo "installing Rancher If certmanager is already installed"
-helm install rancher rancher-stable/rancher --namespace cattle-system --set hostname=rancher.my.org --set bootstrapPassword=admin 
+function byocerts () {
+    read -p "Certfile Path" tlscrt
+    read -p "Cert Keyfile" tlskey
+    kubectl -n cattle-system create secret tls tls-rancher-ingress --cert=${tlscrt} --key=${tlskey}
+    
+    read -p "Is this a privateCA cert? (y/n)" private
 
-Echo "watching the Rancher rollout"
-kubectl -n cattle-system rollout status deploy/rancher
+    if [ $private = 'n' ]; then
+        echo "installing Rancher with a globally trusted cert"
+        helm install rancher rancher-stable/rancher --namespace cattle-system --set hostname=rancher.my.org --set ingress.tls.source=secret bootstrapPassword=admin 
+
+        Echo "watching the Rancher rollout"
+        kubectl -n cattle-system rollout status deploy/rancher
+    else
+        read -p "ca chain file path" cachainpath
+        kubectl -n cattle-system create secret generic tls-ca --from-file=cacerts.pem=${cachainpath}
+        echo "installing Rancher with a globally trusted cert"
+        helm install rancher rancher-stable/rancher --namespace cattle-system --set hostname=rancher.my.org --set ingress.tls.source=secret bootstrapPassword=admin --set privateCA=true
+
+        Echo "watching the Rancher rollout"
+        kubectl -n cattle-system rollout status deploy/rancher
+    fi
+
+}
+
+read -p "Install Certmanager? If you have your own certs answer, no (y/n)" certmanager
+
+if [ certmanager = 'y']; then 
+    selfsigned
+else 
+    byocerts
