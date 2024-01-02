@@ -5,6 +5,13 @@
 rke2-uninstall.sh
 ```
 
+#### Make sure required Repos are available 
+
+````bash
+subscription-manager repos  --enable=rhel-7-server-extras-rpms
+````
+
+
 #### Lets get the scripts and everything on the vms. On each node run the following command 
 ```bash
 git clone https://github.com/brooksphilip/cdf2-rke2-install.git
@@ -14,6 +21,7 @@ git clone https://github.com/brooksphilip/cdf2-rke2-install.git
 ```bash 
 chmod +x first_master_script.sh
 chmod +x other_master_script.sh
+chmod +x install_rancher.sh
 ```
 
 #### Lets generate a token 
