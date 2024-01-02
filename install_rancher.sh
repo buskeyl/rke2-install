@@ -1,3 +1,4 @@
+#!/bin/sh
 echo "adding helm repo"
 helm repo add rancher-stable https://releases.rancher.com/server-charts/stable
 echo "creating cattle system namespace"
