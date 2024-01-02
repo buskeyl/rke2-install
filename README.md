@@ -5,7 +5,7 @@
 rke2-uninstall.sh
 ```
 
-#### Make sure required Repos are available 
+#### Make sure required repos are available 
 
 ````bash
 subscription-manager repos  --enable=rhel-7-server-extras-rpms
