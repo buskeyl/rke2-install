@@ -40,17 +40,18 @@ function byocerts () {
 
     if [ $private = 'n' ]; then
         echo "installing Rancher with a globally trusted cert"
-        helm install rancher rancher-stable/rancher --namespace cattle-system --set hostname=rancher.my.org --set ingress.tls.source=secret bootstrapPassword=admin 
+        helm install rancher rancher-stable/rancher --namespace cattle-system --set hostname=rancher.my.org --set ingress.tls.source=secret --set bootstrapPassword=admin 
 
         Echo "watching the Rancher rollout"
         kubectl -n cattle-system rollout status deploy/rancher
     else
         read -p "ca chain file path" cachainpath
         kubectl -n cattle-system create secret generic tls-ca --from-file=cacerts.pem=${cachainpath}
-        echo "installing Rancher with a globally trusted cert"
-        helm install rancher rancher-stable/rancher --namespace cattle-system --set hostname=rancher.my.org --set ingress.tls.source=secret bootstrapPassword=admin --set privateCA=true
+        echo "installing Rancher with a private CA cert"
+        read -p "input rancher domain" rancherhostname
+        helm install rancher rancher-stable/rancher --namespace cattle-system --set hostname=${rancherhostname} --set ingress.tls.source=secret bootstrapPassword=admin --set privateCA=true
 
-        Echo "watching the Rancher rollout"
+        echo "watching the Rancher rollout"
         kubectl -n cattle-system rollout status deploy/rancher
     fi
 
