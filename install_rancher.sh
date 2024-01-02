@@ -62,3 +62,5 @@ if [ certmanager = 'y']; then
     selfsigned
 else 
     byocerts
+fi
+
