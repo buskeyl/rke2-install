@@ -28,7 +28,7 @@ function selfsigned () {
 
 }
 
-# BYO Certs .. Comment out the below 
+# BYO Certs .. 
 # https://ranchermanager.docs.rancher.com/getting-started/installation-and-upgrade/resources/add-tls-secrets
 
 function byocerts () {
