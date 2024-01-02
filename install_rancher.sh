@@ -1,4 +1,8 @@
 #!/bin/sh
+echo "reccomend opening 2 shells before starting this script"
+
+sleep 10
+
 echo "adding helm repo"
 helm repo add rancher-stable https://releases.rancher.com/server-charts/stable
 echo "creating cattle system namespace"
